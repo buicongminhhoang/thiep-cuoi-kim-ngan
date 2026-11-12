@@ -265,7 +265,7 @@ section{position:relative;padding:3.2em 1.2em}
 .count span{font-family:var(--sans);font-size:.6em;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 .rowi{display:flex;align-items:center;gap:.7em;margin-top:1.5em}
 .rowi.t{justify-content:flex-end;text-align:right}
-.rowi .lb{font-family:var(--brush);font-size:2.3em;color:var(--c2);white-space:nowrap;text-shadow:var(--glow);line-height:1}
+.rowi .lbl{font-family:var(--brush);font-size:2.3em;color:var(--c2);white-space:nowrap;text-shadow:var(--glow);line-height:1}
 .rowi p{font-size:1em;line-height:1.45}
 .rowi p small{display:block;color:var(--dim);font-style:italic;font-size:.88em}
 .btns{display:flex;flex-wrap:wrap;gap:.55em;justify-content:center;margin-top:1.8em}
@@ -273,9 +273,17 @@ section{position:relative;padding:3.2em 1.2em}
 .btn svg{width:1.2em;height:1.2em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
 .btn:active{transform:scale(.95)}
 .btn.solid,.btn:hover{background:var(--c1);color:#fff}
-.map{margin-top:1.4em;border-radius:14px;overflow:hidden;height:0;transition:height .8s var(--ease)}
-.map.open{height:72cqw}
-.map iframe{width:100%;height:100%;border:0;display:block}
+.gift-btn{animation:wiggle 2.6s ease-in-out infinite;transform-origin:50% 60%}
+.gift-btn svg{stroke-linecap:round;stroke-linejoin:round}
+@keyframes wiggle{0%,56%,100%{transform:rotate(0)}60%{transform:rotate(-7deg)}66%{transform:rotate(6deg)}72%{transform:rotate(-5deg)}78%{transform:rotate(4deg)}84%{transform:rotate(-2deg)}90%{transform:rotate(1deg)}}
+.gift{position:fixed;inset:0;z-index:205;display:grid;place-items:center;padding:18px;background:rgba(40,14,24,.72);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
+.gift.on{opacity:1;visibility:visible}
+.gift-card{position:relative;width:min(100%,360px);max-height:92dvh;overflow:auto;background:#fff;color:#5b3742;border-radius:22px;padding:20px 16px 18px;text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.4);transform:translateY(24px) scale(.94);transition:transform .5s var(--ease)}
+.gift.on .gift-card{transform:none}
+.gift-card .x{position:absolute;top:4px;right:8px;font-size:1.9rem;line-height:1;padding:8px;color:#99737f;font-family:var(--serif)}
+.gift-t{font-family:var(--sign);font-size:2.4rem;line-height:1;color:#dd4f7f;margin-bottom:10px}
+.gift-card img{width:100%;border-radius:14px}
+.gift-n{font-family:var(--serif);font-style:italic;font-size:.92rem;line-height:1.45;color:#99737f;margin-top:10px}
 
 /* ảnh + câu chữ */
 .mix{padding-inline:0}
@@ -313,8 +321,6 @@ section{position:relative;padding:3.2em 1.2em}
 .lb .x{top:6px;right:8px}.lb .p{left:2px;top:50%;transform:translateY(-50%)}.lb .n{right:2px;top:50%;transform:translateY(-50%)}
 .lb .ct{position:absolute;top:18px;left:0;right:0;text-align:center;color:rgba(255,255,255,.65);font-family:var(--sans);font-size:.8rem;letter-spacing:.2em;pointer-events:none}
 
-.toast{position:fixed;left:50%;bottom:40px;transform:translate(-50%,20px);background:#fff;color:#b0506a;padding:10px 20px;border-radius:999px;box-shadow:0 14px 34px rgba(0,0,0,.25);z-index:210;opacity:0;visibility:hidden;transition:.45s var(--ease);font-family:var(--sans);font-size:.85rem;white-space:nowrap}
-.toast.on{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .heart{position:fixed;z-index:150;pointer-events:none;color:var(--c1);font-size:22px;line-height:1;margin:-11px 0 0 -11px}
 .petal{position:fixed;top:-30px;z-index:140;pointer-events:none;width:14px;height:18px;border-radius:80% 10% 80% 10%;background:linear-gradient(135deg,#ffe3ea,#f58fae);opacity:.85;animation:fall linear forwards}
 @keyframes fall{to{transform:translate(var(--dx),108vh) rotate(var(--rot));opacity:.5}}
@@ -406,8 +412,8 @@ section{position:relative;padding:3.2em 1.2em}
     <p class="names rv">Kim Ngân &amp; Minh Hoàng</p>
     <p class="hand wr">Anh là điều em chọn bằng cả trái tim,<br>không đắn đo, chẳng hề do dự.</p>
     <div class="parents">
-      <div class="rv"><h3>Nhà gái</h3><p>Ông Vũ Minh Điều<span>bố</span></p><p>Bà Mai Thị Yến<span>mẹ</span></p></div>
-      <div class="rv" style="--i:1"><h3>Nhà trai</h3><p>Ông Bùi Công Văn<span>bố</span></p><p>Bà Nguyễn Thị Sinh<span>mẹ</span></p></div>
+      <div class="rv"><h3>Nhà gái</h3><p>Bố: Vũ Minh Điều</p><p>Mẹ: Mai Thị Yến</p></div>
+      <div class="rv" style="--i:1"><h3>Nhà trai</h3><p>Bố: Bùi Công Văn</p><p>Mẹ: Nguyễn Thị Sinh</p></div>
     </div>
   </section>
 
@@ -458,15 +464,12 @@ section{position:relative;padding:3.2em 1.2em}
     <div class="count rv" data-count>
       <div><b data-k="d">00</b><span>ngày</span></div><div><b data-k="h">00</b><span>giờ</span></div><div><b data-k="m">00</b><span>phút</span></div><div><b data-k="s">00</b><span>giây</span></div>
     </div>
-    <div class="rowi t rv"><p>Chủ nhật, 29/11/2026 · 10:00<small>Âm lịch 21/10 năm Bính Ngọ</small></p><span class="lb">/ Time</span></div>
-    <div class="rowi rv"><span class="lb">Address /</span><p><b style="font-weight:600">Lễ Vu Quy — tại gia đình nhà gái</b><br>Tổ 12, Phường Bắc Kạn, Tỉnh Thái Nguyên<small>Km số 4, đường đi Thái Nguyên</small></p></div>
+    <div class="rowi t rv"><p>Chủ nhật, 29/11/2026 · 10:00<small>Âm lịch 21/10 năm Bính Ngọ</small></p><span class="lbl">/ Time</span></div>
+    <div class="rowi rv"><span class="lbl">Address /</span><p><b style="font-weight:600">Lễ Vu Quy — tại gia đình nhà gái</b><br>Tổ 12, Phường Bắc Kạn, Tỉnh Thái Nguyên<small>Km số 4, đường đi Thái Nguyên</small></p></div>
     <div class="btns rv">
       <a class="btn solid" href="https://maps.app.goo.gl/XpdJmL4UqYZCYA7C9" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.200 7-12a7 7 0 1 0-14 0c0 5.800 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Chỉ đường</a>
-      <button class="btn" id="btnMap"><svg viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg><span>Xem bản đồ</span></button>
-      <button class="btn" id="btnIcs"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Lưu vào lịch</button>
-      <button class="btn" id="btnCopy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>Sao chép địa chỉ</button>
+      <button class="btn gift-btn" id="btnGift"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8S10.500 3 8 3a2.500 2.500 0 0 0 0 5zM12 8s1.500-5 4-5a2.500 2.500 0 0 1 0 5z"/></svg>Gửi quà mừng</button>
     </div>
-    <div class="map" id="map"></div>
   </section>
 
   <section class="mix">
@@ -498,7 +501,14 @@ section{position:relative;padding:3.2em 1.2em}
   <button class="p" id="lbP" aria-label="Ảnh trước">‹</button>
   <button class="n" id="lbN" aria-label="Ảnh sau">›</button>
 </div>
-<div class="toast" id="toast"></div>
+<div class="gift" id="gift" role="dialog" aria-label="Gửi quà mừng">
+  <div class="gift-card">
+    <button class="x" id="giftX" aria-label="Đóng">×</button>
+    <p class="gift-t">Gửi quà mừng</p>
+    <img src="img/qr-agribank.jpg" alt="Mã QR chuyển khoản Agribank: VU THI KIM NGAN, số tài khoản 8600205224610" loading="lazy">
+    <p class="gift-n">Quét mã bằng ứng dụng ngân hàng.<br>Chúng mình cảm ơn bạn thật nhiều!</p>
+  </div>
+</div>
 
 <script src="js/gsap.min.js"></script>
 <script src="js/ScrollTrigger.min.js"></script>
@@ -512,7 +522,6 @@ const CONFIG = {
   title: 'Lễ Vu Quy Kim Ngân & Minh Hoàng',
   address: 'Tổ 12, Phường Bắc Kạn, Tỉnh Thái Nguyên (Km số 4, đường đi Thái Nguyên)',
   mapsUrl: 'https://maps.app.goo.gl/XpdJmL4UqYZCYA7C9',
-  mapsEmbed: 'https://www.google.com/maps?q=22.1235551,105.8393414&z=16&hl=vi&output=embed',
   // ảnh trong album cuối trang, theo thứ tự hiển thị
   album: ['NTD01495','NTD03550','NTD01536','NTD02037','NTD03577','NTD01588','NTD02049','NTD03498','NTD02333','NTD02387','NTD03734','NTD01642','NTD03735','NTD02456','NTD03759','NTD03789','NTD01735','NTD03813','NTD02622','NTD03830','NTD02258','NTD03939','NTD02030','NTD03257','NTD03639','NTD02851','NTD02903','NTD02939','NTD02951','NTD03025'],
 };
@@ -631,7 +640,7 @@ function rain(n) {
 }
 if (!reduced) setInterval(() => { if (opened && !document.hidden && !$('#lb').classList.contains('on')) rain(1); }, 1400);
 addEventListener('pointerdown', e => {
-  if (!opened || reduced || e.target.closest('button,a,.trk,.lb,iframe')) return;
+  if (!opened || reduced || e.target.closest('button,a,.trk,.lb,.gift')) return;
   for (let i = 0; i < 5; i++) {
     const h = document.createElement('span'); h.className = 'heart'; h.textContent = '♥';
     h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; document.body.appendChild(h);
@@ -641,27 +650,13 @@ addEventListener('pointerdown', e => {
   }
 });
 
-/* ---------- Nút: bản đồ, lịch, sao chép ---------- */
-const toast = $('#toast'); let toastT;
-function say(msg) { toast.textContent = msg; toast.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('on'), 2600); }
-$('#btnMap').addEventListener('click', e => {
-  const m = $('#map');
-  if (!m.firstChild) { const f = document.createElement('iframe'); f.src = CONFIG.mapsEmbed; f.loading = 'lazy'; f.allowFullscreen = true; f.referrerPolicy = 'no-referrer-when-downgrade'; f.title = 'Bản đồ'; m.appendChild(f); }
-  m.classList.toggle('open'); e.currentTarget.querySelector('span').textContent = m.classList.contains('open') ? 'Ẩn bản đồ' : 'Xem bản đồ';
-  setTimeout(() => { if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 900);
-});
-$('#btnIcs').addEventListener('click', () => {
-  const f = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-  const st = new Date(CONFIG.eventISO), en = new Date(st.getTime() + 3 * 36e5);
-  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kim Ngan & Minh Hoang//VI', 'BEGIN:VEVENT', 'UID:vuquy-ngan-hoang-20261129@wedding',
-    'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(st), 'DTEND:' + f(en), 'SUMMARY:' + CONFIG.title, 'LOCATION:' + CONFIG.address,
-    'DESCRIPTION:Tới dự bữa cơm thân mật chung vui cùng gia đình. Chỉ đường: ' + CONFIG.mapsUrl, 'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:Ngày mai là Lễ Vu Quy Kim Ngân & Minh Hoàng', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })); a.download = 'Le-Vu-Quy-Kim-Ngan-Minh-Hoang.ics'; a.click();
-  say('Đã tải lịch nhắc. Hẹn gặp bạn ngày 29.11!');
-});
-$('#btnCopy').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(CONFIG.address); say('Đã sao chép địa chỉ'); } catch { say('Không sao chép được, bạn chép tay giúp nhé'); }
-});
+/* ---------- Gửi quà mừng: hiện mã QR ---------- */
+const gift = $('#gift');
+const closeGift = () => { gift.classList.remove('on'); lenis?.start(); };
+$('#btnGift').addEventListener('click', () => { gift.classList.add('on'); lenis?.stop(); });
+$('#giftX').addEventListener('click', closeGift);
+gift.addEventListener('click', e => { if (e.target === gift) closeGift(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && gift.classList.contains('on')) closeGift(); });
 
 /* ---------- Album + xem ảnh lớn ---------- */
 const gg = $('#gg'), lb = $('#lb'), lbImg = $('#lbImg'); let cur = 0;
